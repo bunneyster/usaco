@@ -20,11 +20,11 @@ int main() {
   std::ofstream output("ride.out");
 
   std::string comet, group;
-  getline(input, comet);
-  getline(input, group);
+  std::getline(input, comet);
+  std::getline(input, group);
 
   int comet_hash = compute_hash(comet.begin(), comet.end());
   int group_hash = compute_hash(group.begin(), group.end());
-  comet_hash == group_hash ? output << "GO\n" : output << "STAY\n";
+  output << ((comet_hash == group_hash) ? "GO" : "STAY") << std::endl;
   return 0;
 }
