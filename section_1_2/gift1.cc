@@ -20,8 +20,8 @@ int main() {
   for (int i = 0; i < friend_count; ++i) {
     std::string name;
     input >> name;
-    names.push_back(name);
-    balances[name] = 0;
+    names.emplace_back(std::move(name));
+    balances[name];
   }
 
   for (int i = 0; i < friend_count; ++i) {
@@ -43,8 +43,8 @@ int main() {
     balances[giver] -= gift * split;
   }
 
-  for (std::vector<std::string>::iterator it = names.begin(); it != names.end(); ++it) {
-    output << *it << " " << balances[*it] << std::endl;
+  for (const auto name : names) {
+    output << name << " " << balances[name] << std::endl;
   }
 
   return 0;
