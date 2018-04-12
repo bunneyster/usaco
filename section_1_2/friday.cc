@@ -8,14 +8,18 @@ TASK: friday
 #include <fstream>
 #include <unordered_map>
 
+bool is_leap_year(int year) {
+  if (year % 100 == 0) {
+    return year % 400 == 0;
+  } else {
+    return year % 4 == 0;
+  }
+}
+
 int days_in_month(int month, int year) {
   const std::array<int, 12> offsets = {1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1};
   if (month == 1) {  // February
-    if (year % 100 == 0) {
-      return (year % 400 == 0) ? 29 : 28;
-    } else {
-      return (year % 4 == 0) ? 29 : 28;
-    }
+    return is_leap_year(year) ? 29 : 28;
   } else {
     return 30 + offsets[month];
   }
