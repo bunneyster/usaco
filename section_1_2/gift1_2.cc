@@ -21,20 +21,20 @@ int main() {
   for (int p = 0; p < num_people; ++p) {
     input >> name;
     names.push_back(name);
-    balances[name] = 0;
   }
 
-  std::string giver, receiver;
-  int total_gift, num_friends, gift;
   for (int p = 0; p < num_people; ++p) {
-    input >> giver >> total_gift >> num_friends;
+    int declared_gift_amount, num_friends;
+    std::string giver, receiver;
+    input >> giver >> declared_gift_amount >> num_friends;
     if (num_friends == 0) continue;
-    gift = total_gift / num_friends;
+
+    int gift_per_friend = declared_gift_amount / num_friends;
     for (int f = 0; f < num_friends; ++f) {
       input >> receiver;
-      balances[receiver] += gift;
+      balances[receiver] += gift_per_friend;
     }
-    balances[giver] -= num_friends * gift;
+    balances[giver] -= num_friends * gift_per_friend;
   }
 
   for (const auto name : names) {
