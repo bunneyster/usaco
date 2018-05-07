@@ -20,9 +20,9 @@ std::vector<int> convert_base(int number, int base) {
   return result;
 }
 
-bool is_pal(std::vector<int>& number) {
+bool is_pal(const std::vector<int>& number) {
   int size = number.size();
-  for (std::size_t i = 0; i < size; ++i) {
+  for (std::size_t i = 0; i < size / 2; ++i) {
     if (number[i] != number[size - 1 - i]) return false;
   }
   return true;
