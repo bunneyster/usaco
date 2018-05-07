@@ -10,7 +10,7 @@ TASK: ride
 
 int hash(std::string name) {
   int result = 1;
-  for (const char letter : name) {
+  for (char letter : name) {
     result *= (letter - 'A' + 1);
   }
   return result % 47;
