@@ -17,10 +17,10 @@ int main() {
   input >> num_intervals;
 
   std::vector<std::pair<int, int>> intervals;
-  int start, end;
   for (int i = 0; i < num_intervals; ++i) {
-    input >> start >> end;
-    intervals.push_back(std::make_pair(start, end));
+    int begin, end;
+    input >> begin >> end;
+    intervals.push_back(std::make_pair(begin, end));
   }
   std::sort(intervals.begin(), intervals.end());
 
@@ -28,7 +28,7 @@ int main() {
   int last_milk_time = intervals[0].second;
   int max_milk_time = last_milk_time - first_milk_time;
   int max_idle_time = 0;
-  for (const auto interval : intervals) {
+  for (const auto& interval : intervals) {
     if (interval.first > last_milk_time) {
       max_idle_time = std::max(max_idle_time, interval.first - last_milk_time);
       max_milk_time = std::max(max_milk_time, last_milk_time - first_milk_time);
