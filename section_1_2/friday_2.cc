@@ -1,16 +1,13 @@
 /*
 ID: stapark1
-LANG: C++11
+LANG: C++14
 TASK: friday
 */
 
 #include <fstream>
 #include <array>
 
-std::array<int, 7> frequencies{};  // Sat, Sun, Mon, Tues, Wed, Thurs, Fri
-std::array<int, 12> days_in_month = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-bool is_leap_year(int year) {
+bool IsLeapYear(int year) {
   if (year % 100 == 0) {
     return year % 400 == 0;
   } else {
@@ -18,11 +15,12 @@ bool is_leap_year(int year) {
   }
 }
 
-int days_this_month(int month, int year) {
-  if (month == 1) {  // February
-    return is_leap_year(year) ? 29 : 28;
+int DaysInMonth(int month, int year) {
+  std::array<const int, 12> kDaysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  if (month == 1 && IsLeapYear(year)) {  // February on leap year
+    return 29;
   } else {
-    return days_in_month[month];
+    return kDaysInMonth[month];
   }
 }
 
@@ -33,11 +31,13 @@ int main() {
   int years;
   input >> years;
 
-  int friday = 0;  // Saturday, 1900
+  // Frequency of the 13th, in the order specified for the output.
+  std::array<int, 7> frequencies{};  // Sat, Sun, Mon, Tues, Wed, Thurs, Fri
+  int thirteenth = 0;  // January 13, 1990 is a Saturday.
   for (int year = 1900; year < 1900 + years; ++year) {
     for (int month = 0; month < 12; ++month) {
-      frequencies[friday]++;
-      friday = (friday + days_this_month(month, year) - 28) % 7;
+      frequencies[thirteenth]++;
+      thirteenth = (thirteenth + DaysInMonth(month, year) - 28) % 7;
     }
   }
 
