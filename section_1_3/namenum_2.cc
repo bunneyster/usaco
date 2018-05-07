@@ -19,11 +19,12 @@ const std::unordered_map<char, int> keypad = {
   {'W', 9}, {'X', 9}, {'Y', 9}
 };
 
-float serialize(std::string name) {
-  float result = 0;
-  for (const char c : name) {
-    if (keypad.find(c) == keypad.end()) return 0;
-    result = result * 10 + keypad.at(c);
+uint64_t serialize(std::string name) {
+  uint64_t result = 0;
+  for (const char& c : name) {
+    auto it = keypad.find(c);
+    if (it == keypad.end()) return 0;
+    result = result * 10 + it->second;
   }
   return result;
 }
@@ -33,21 +34,18 @@ int main() {
   std::ifstream input("namenum.in");
   std::ofstream output("namenum.out");
 
-  float serial;
+  uint64_t serial;
   input >> serial;
 
-  std::unordered_map<float, std::vector<std::string>> serializations;
+  std::vector<std::string> results;
   std::string name;
-  float serialization;
   while (dict >> name) {
-    serialization = serialize(name);
-    if (serialization) {
-      serializations[serialization];
-      serializations[serialization].push_back(name);
+    uint64_t serialization = serialize(name);
+    if (serialization && serialization == serial) {
+      results.push_back(name);
     }
   }
 
-  auto results = serializations[serial];
   if (results.empty()) {
     output << "NONE" << std::endl;
   } else {
