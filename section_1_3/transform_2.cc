@@ -1,13 +1,14 @@
 /*
 ID: stapark1
-LANG: C++11
+LANG: C++14
 TASK: transform
 */
 
+#include <algorithm>
 #include <fstream>
 #include <vector>
 
-std::vector<std::vector<char>> rotate(const std::vector<std::vector<char>>& original) {
+std::vector<std::vector<char>> Rotate(const std::vector<std::vector<char>>& original) {
   std::vector<std::vector<char>> result = original;
   int dimension = original.size();
   for (int row = 0; row < dimension; ++row) {
@@ -18,13 +19,21 @@ std::vector<std::vector<char>> rotate(const std::vector<std::vector<char>>& orig
   return result;
 }
 
-std::vector<std::vector<char>> reflect(const std::vector<std::vector<char>>& original) {
+std::vector<std::vector<char>> Reflect(const std::vector<std::vector<char>>& original) {
   std::vector<std::vector<char>> result = original;
   int dimension = original.size();
   for (int row = 0; row < dimension; ++row) {
-    for (int col = 0; col < dimension; ++col) {
-      result[row][dimension - 1 - col] = original[row][col];
-    }
+    std::reverse(result[row].begin(), result[row].end());
+  }
+  return result;
+}
+
+std::vector<std::vector<char>> ReadMatrix(int size, std::ifstream& input) {
+  std::vector<std::vector<char>> result;
+  std::string row;
+  for (int i = 0; i < size; ++i) {
+    input >> row;
+    result.emplace_back(std::vector<char>(row.cbegin(), row.cend()));
   }
   return result;
 }
@@ -36,27 +45,12 @@ int main() {
   int N;
   input >> N;
 
-  std::vector<std::vector<char>> initial;
-  std::vector<std::vector<char>> transformed;
-  std::string row;
-  for (int i = 0; i < N; ++i) {
-    initial.push_back(std::vector<char>{});
-    input >> row;
-    for (int j = 0; j < N; ++j) {
-      initial[i].push_back(row[j]);
-    }
-  }
-  for (int i = 0; i < N; ++i) {
-    transformed.push_back(std::vector<char>{});
-    input >> row;
-    for (int j = 0; j < N; ++j) {
-      transformed[i].push_back(row[j]);
-    }
-  }
+  std::vector<std::vector<char>> initial = ReadMatrix(N, input);
+  std::vector<std::vector<char>> transformed = ReadMatrix(N, input);
 
   auto intermediate = initial;
   for (int i = 1; i < 4; ++i) {
-    intermediate = rotate(intermediate);
+    intermediate = Rotate(intermediate);
 
     if (intermediate == transformed) {
       output << i << std::endl;
@@ -64,13 +58,13 @@ int main() {
     }
   }
 
-  intermediate = reflect(initial);
+  intermediate = Reflect(initial);
   if (intermediate == transformed) {
     output << 4 << std::endl;
     return 0;
   }
   for (int i = 1; i < 4; ++i) {
-    intermediate = rotate(intermediate);
+    intermediate = Rotate(intermediate);
     if (intermediate == transformed) {
       output << 5 << std::endl;
       return 0;
