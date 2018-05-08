@@ -4,27 +4,24 @@ LANG: C++11
 TASK: palsquare
 */
 
+#include <algorithm>
 #include <fstream>
 
 std::string convert_base(int number, int base) {
-  std::string remainder;
-  if (number % base < 10) {
-    remainder = '0' + (number % base);
-  } else {
-    remainder = 'A' + (number % base) - 10;
-  }
+  const char kDigits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-  int quotient = number / base;
-  if (quotient == 0) {
-    return remainder;
-  } else {
-    return convert_base(quotient, base) + remainder;
+  std::string result;
+  while (number != 0) {
+    result.push_back(kDigits[number % base]);
+    number /= base;
   }
+  std::reverse(result.begin(), result.end());
+  return result;
 }
 
-bool palindromic(std::string number) {
-  for (int i = 0; i < number.size(); ++i) {
-    if (number[i] != number[number.size() - 1 - i]) return false;
+bool IsPalindrome(const std::string& input) {
+  for (int i = 0; i < input.size(); ++i) {
+    if (input[i] != input[input.size() - 1 - i]) return false;
   }
   return true;
 }
@@ -39,7 +36,7 @@ int main() {
   std::string square;
   for (int i = 1; i <= 300; ++i) {
     square = convert_base(i * i, base);
-    if (palindromic(square)) {
+    if (IsPalindrome(square)) {
       output << convert_base(i, base) << ' ' << square << std::endl;
     }
   }
