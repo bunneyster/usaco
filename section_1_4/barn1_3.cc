@@ -24,7 +24,7 @@ int main() {
   for (std::size_t i = 0; i < num_cows; ++i) {
     int cow_stall;
     input >> cow_stall;
-    occupied_stalls.push_back(cow_stall);
+    occupied_stalls.emplace_back(cow_stall);
   }
   std::sort(occupied_stalls.begin(), occupied_stalls.end());
 
@@ -36,9 +36,8 @@ int main() {
   std::sort(gaps.begin(), gaps.end());
 
   int result = num_cows;
-  for (std::size_t i = 0; i < gaps.size() - max_boards + 1; ++i) {
+  for (std::size_t i = 0; i < gaps.size() - max_boards + 1; ++i)
     result += gaps[i];
-  }
 
   output << result << std::endl;
   return 0;
